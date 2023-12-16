@@ -7,8 +7,10 @@ class Widgets {
       required String keyword}) {
     showDialog(
       context: context,
+      useSafeArea: true,
       builder: (BuildContext context) {
         return AlertDialog.adaptive(
+          alignment: Alignment.center,
           title: const Text("Are You sure?"),
           content: Text("Are you sure want to $keyword?"),
           actions: [
