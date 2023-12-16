@@ -2,11 +2,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
-
+import 'package:quickly_platform_assignment/resources/apis/api.dart';
+import 'package:quickly_platform_assignment/resources/apis/end_points.dart';
 import 'package:string_validator/string_validator.dart';
 
 import '../common/decoration.dart';
-
+import '../resources/shared_pref.dart';
+import '../routes/route_constant.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key, required this.isLogin});
@@ -52,6 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const Gap(10),
             TextFormField(
+              obscureText: true,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               controller: passwordController,
               decoration: textFieldDecoration.copyWith(
@@ -72,13 +75,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     Fluttertoast.showToast(msg: "Please Enter Details");
                     return;
                   }
-
-                  // Fluttertoast.showToast(msg: val ?? "");
-                  // if (val == "Successful") {
-                  //   SharedPref.setLoginStatus();
-                  //   Navigator.of(context)
-                  //       .pushReplacementNamed(RoutesConstant.homeScreen);
-                  // }
+                  APIClass.postRequest(endPoint: EndPoint.login, myData: {
+                    "email": emailController.text,
+                    "password": passwordController.text
+                  }).then((val) {
+                    if (val["status"]) {
+                      Fluttertoast.showToast(
+                          msg: "You have successfully logged in");
+                      SharedPref.setLoginStatus();
+                      Navigator.of(context).pushReplacementNamed(
+                          RoutesConstant.productListScreen);
+                    } else {
+                      Fluttertoast.showToast(msg: val["message"]);
+                    }
+                  });
                 },
                 child: Text(
                   isLogin ? "Login" : "Sign Up",

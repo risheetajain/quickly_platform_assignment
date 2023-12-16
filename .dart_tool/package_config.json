@@ -146,6 +146,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "nested",
+      "rootUri": "file:///Users/risheetajain/.pub-cache/hosted/pub.dev/nested-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "path",
       "rootUri": "file:///Users/risheetajain/.pub-cache/hosted/pub.dev/path-1.8.3",
       "packageUri": "lib/",
@@ -198,6 +204,12 @@
       "rootUri": "file:///Users/risheetajain/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.7",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "provider",
+      "rootUri": "file:///Users/risheetajain/.pub-cache/hosted/pub.dev/provider-6.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "shared_preferences",
@@ -326,7 +338,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-12-15T16:59:37.384329Z",
+  "generated": "2023-12-16T06:22:50.423059Z",
   "generator": "pub",
   "generatorVersion": "3.1.2"
 }

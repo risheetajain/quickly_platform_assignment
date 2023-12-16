@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:quickly_platform_assignment/common/decoration.dart';
+import 'package:quickly_platform_assignment/providers/product_providers.dart';
 
 import 'routes/router.dart';
 import 'routes/routes.dart';
@@ -13,15 +17,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      onGenerateRoute: RoutersPath.generateRoute,
-      initialRoute: RouteConstant.splashScreen,
-    );
+    return ChangeNotifierProvider(
+        create: (context) => ProductProvider(),
+        builder: (context, child) {
+          return MaterialApp(
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              appBarTheme: const AppBarTheme(backgroundColor: Colors.orange,foregroundColor: Colors.white,titleTextStyle: largeTitle),
+              fontFamily: GoogleFonts.nunito().fontFamily,
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+              useMaterial3: true,
+            ),
+            onGenerateRoute: RoutersPath.generateRoute,
+            initialRoute: RouteConstant.splashScreen,
+          );
+        });
   }
 }
 

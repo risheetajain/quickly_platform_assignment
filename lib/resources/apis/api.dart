@@ -1,40 +1,96 @@
-import 'dart:convert';
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 class APIClass {
-  String baseUrl = "https://flutter-api-a4y8j.ondigitalocean.app/";
-  var dio = Dio();
-  getRequest({required String endPoint}) async {
-    try {
-      var response = await dio.request(
-        baseUrl + endPoint,
-        options: Options(
-          method: 'GET',
-        ),
-      );
+  static String baseUrl = "https://flutter-api-a4y8j.ondigitalocean.app/";
+  static var dio = Dio();
 
-      if (response.statusCode == 200) {
+  static Future<Map<String, dynamic>> getRequest(
+    String endPoint,
+  ) async {
+    Map<String, dynamic> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    try {
+      var response = await dio.get(baseUrl + endPoint,
+          options: Options(
+            headers: headers,
+          ));
+
+      final x = response.data;
+      if (response.statusCode! < 400) {
+        return {"body": x, "status": true};
+      } else if (response.statusCode! > 400 && response.statusCode! < 500) {
         return {
-          "statusCode": response.statusCode,
-          "message": (json.encode(response.data))
+          "status": "error",
+          "message": x["message"] ?? "Something went wrong"
         };
       } else {
         return {
-          "statusCode": response.statusCode,
-          "message": (response.statusMessage)
+          "status": "error",
+          "message": x["message"] ?? "Something went wrong"
         };
       }
+    } on TimeoutException {
+      return {
+        "status": "false",
+        "message": 'The connection has timed out, Please try again!'
+      };
     } on SocketException {
-      return {"statusCode": 400, "message": "No Interne Connection"};
+      debugPrint("Internet Issue! No Internet connection 😑");
+
+      return {
+        "status": "false",
+        "message": "Internet Issue! No Internet connection 😑"
+      };
     } catch (e) {
-      if (e is DioException) {
-        return {"statusCode": 400, "message": e.message};
-      }
-      print(e);
+      debugPrint("Error: $e");
+      return {"status": "false", "message": "Connection Problem"};
     }
   }
 
-  postRequest() {}
+ static Future<Map<String, dynamic>> postRequest(
+      {required String endPoint, required Map<String, dynamic> myData}) async {
+    try {
+      var response = await dio.post(baseUrl + endPoint,
+          options: Options(
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+          ),
+          data: myData);
+      final x = response.data;
+      if (response.statusCode! < 400) {
+        return {"body": x, "status": true};
+      } else if (response.statusCode! > 400 && response.statusCode! < 500) {
+        return {
+          "status": "error",
+          "message": x["message"] ?? "Something went wrong"
+        };
+      } else {
+        return {
+          "status": "error",
+          "message": x["message"] ?? "Something went wrong"
+        };
+      }
+    } on TimeoutException {
+      return {
+        "status": "false",
+        "message": 'The connection has timed out, Please try again!'
+      };
+    } on SocketException {
+      debugPrint("Internet Issue! No Internet connection 😑");
+
+      return {
+        "status": "false",
+        "message": "Internet Issue! No Internet connection 😑"
+      };
+    } catch (e) {
+      debugPrint("Error: $e");
+      return {"status": "false", "message": "Connection Problem"};
+    }
+  }
 }

@@ -1,4 +1,5 @@
 class EndPoint {
-  String login = "auth/login";
-  String getProduct = "products/get";
+  static String login = "auth/login";
+  static String getProduct = "products/get";
+  static String getProductByID = "products/getById/";
 }

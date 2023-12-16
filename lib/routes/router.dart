@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:quickly_platform_assignment/screens/product_description.dart';
 
-import '../screens/home.dart';
 import '../screens/login.dart';
+import '../screens/products_screen.dart';
 import '../screens/splash_screen.dart';
 import 'route_constant.dart';
 
 class RoutersPath {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    // final args = settings.arguments != null ? settings.arguments as Map : {};
+    final args = settings.arguments != null ? settings.arguments as Map : {};
 
     switch (settings.name) {
       case RoutesConstant.loginScreen:
@@ -26,9 +27,15 @@ class RoutersPath {
             isLogin: false,
           );
         });
-      case RoutesConstant.homeScreen:
+      case RoutesConstant.productListScreen:
         return MaterialPageRoute(builder: (BuildContext context) {
-          return const HomeScreen();
+          return const ProductListScreen();
+        });
+      case RoutesConstant.productDescScreen:
+        return MaterialPageRoute(builder: (BuildContext context) {
+          return ProductDescription(
+            id: args["id"],
+          );
         });
       default:
         return MaterialPageRoute(builder: (BuildContext context) {
